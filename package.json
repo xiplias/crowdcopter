@@ -6,6 +6,7 @@
     "pumpify": "^1.0.0",
     "send": "^0.6.0",
     "serve": "^1.4.0",
+    "single-line-log": "^0.4.1",
     "through-json": "^1.1.0",
     "websocket-stream": "^0.5.1",
     "ws": "^0.4.31"
@@ -16,6 +17,6 @@
   },
   "scripts": {
     "build": "browserify controller.js > static/bundle.js",
-	"dev": "watchify controller.js -o static/bundle.js & node server.js"
+    "dev": "watchify controller.js -o static/bundle.js & node server.js"
   }
 }

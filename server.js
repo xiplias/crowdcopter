@@ -7,6 +7,7 @@ var json = require('through-json')
 var eos = require('end-of-stream')
 var websocket = require('websocket-stream')
 var path = require('path')
+var log = require('single-line-log')
 
 var client  = ardrone.createClient();
 
@@ -18,6 +19,20 @@ var wss = new ws.Server({server: server})
 
 var connected = []
 
+var print = function(data) {
+  data = ''+
+    'Connected users: '+connected.length+'\n'+
+    'Strafe : '+data.strafe.toFixed(2)+'\n'+
+    'Speed  : '+data.speed.toFixed(2)+'\n'+
+    'Height : '+data.height.toFixed(2)+'\n'+
+    'Rotate : '+data.rotate.toFixed(2)+'\n'+
+    'Takeoff: '+data.takeoff.toFixed(2)+'\n'+
+    'Land   : '+data.land.toFixed(2)+'\n'+
+  ''
+
+  log.stdout(data)
+}
+
 var publish = function() {
   var data = {
     strafe: 0,
@@ -25,7 +40,7 @@ var publish = function() {
     height: 0,
     rotate: 0,
     takeoff: 0,
-    'land': 0
+    land: 0
   }
 
   var factor = 1/connected.length
@@ -88,7 +103,8 @@ var publish = function() {
   })
 
   if (stop) client.stop()
-  else console.log(data)
+
+  print(data)
 }
 
 setInterval(publish, 150)
