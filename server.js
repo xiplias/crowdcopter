@@ -139,13 +139,7 @@ var publish = function() {
 setInterval(publish, 150)
 
 wss.on('connection', function(ws) {
-  var str = json.stringify()
-
-  str.destroy = function() {
-    str.emit('close')
-  }
-
-  ws = pumpify.obj(str, websocket(ws), json.parse())
+  ws = pumpify.obj(json.stringify(), websocket(ws), json.parse())
   ws.vote = null
 
   var destroy = function() {

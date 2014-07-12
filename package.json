@@ -3,12 +3,12 @@
   "dependencies": {
     "ar-drone": "^0.3.2",
     "end-of-stream": "^0.1.5",
-    "pumpify": "^1.0.0",
+    "once": "^1.3.0",
+    "pumpify": "^1.0.1",
     "send": "^0.6.0",
-    "serve": "^1.4.0",
     "single-line-log": "^0.4.1",
     "through-json": "^1.1.0",
-    "websocket-stream": "^0.5.1",
+    "websocket-stream": "mafintosh/websocket-stream#patch-1",
     "ws": "^0.4.31"
   },
   "devDependencies": {
