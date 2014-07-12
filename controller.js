@@ -36,6 +36,8 @@ $.each(s, function(key, value) {
   })
 });
 
+var username = 'user-'+Math.random().toString(16).slice(2)
+
 function connectWebsocket () {
   var loc = window.location;
   var test =  pumpify.obj(json.stringify(), websocket((loc.protocol === 'http:' ? 'ws://' : 'wss://') + loc.host), json.parse())
@@ -51,9 +53,7 @@ function connectWebsocket () {
     }, 1000);
   });
 
-  test.on("open", function () {
-    console.log("online");
-  })
+  test.write(username)
 
   window.stream = test;
 }

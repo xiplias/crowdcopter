@@ -45,6 +45,11 @@ var publish = function() {
 
   var factor = 1/connected.length
 
+  var status = connected.reduce(function(result, ws) {
+    result[ws.username] = ws.vote || 'none'
+    return result
+  }, {})
+
   connected.forEach(function(ws) {
     var vote = ws.vote
 
@@ -81,6 +86,8 @@ var publish = function() {
       case 'down':
       return data.height -= factor
     }
+
+    ws.write(status)
   })
 
   if (data.takeoff) client.takeoff()
@@ -119,23 +126,26 @@ wss.on('connection', function(ws) {
   ws = pumpify.obj(str, websocket(ws), json.parse())
   ws.vote = null
 
-  connected.push(ws)
-
-  eos(ws, function() {
-    if (connected.indexOf(ws) > -1) connected.splice(connected.indexOf(ws), 1)
-  })
-
   var destroy = function() {
     ws.destroy()
   }
 
   var timeout = setTimeout(destroy, 5000)
 
-  ws.on('data', function(data) {
-    clearTimeout(timeout)
-    timeout = setTimeout(destroy, 5000)
-    if (data === 'ping') return
-    ws.vote = data
+  ws.once('data', function(username) {
+    ws.username = username
+
+    connected.push(ws)
+    eos(ws, function() {
+      if (connected.indexOf(ws) > -1) connected.splice(connected.indexOf(ws), 1)
+    })
+
+    ws.on('data', function(data) {
+      clearTimeout(timeout)
+      timeout = setTimeout(destroy, 5000)
+      if (data === 'ping') return
+      ws.vote = data
+    })
   })
 })
 
