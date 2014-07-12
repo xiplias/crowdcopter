@@ -1,6 +1,7 @@
 var json = require('through-json')
 var pumpify = require('pumpify')
 var websocket = require('websocket-stream')
+var once = require('once')
 
 if (!localStorage.getItem("user")) localStorage.setItem("user", 'user-'+Math.random().toString(16).slice(2));
 
@@ -48,6 +49,7 @@ $("#nameField").blur(function () {
 
 
 function connectWebsocket () {
+  console.log('connecting')
   var loc = window.location;
   window.awebsocket = websocket((loc.protocol === 'http:' ? 'ws://' : 'wss://') + loc.host);
   var test =  pumpify.obj(json.stringify(), awebsocket, json.parse());
@@ -65,11 +67,12 @@ function connectWebsocket () {
     $("#votes").html(votes);
   });
 
-  test.on("error", function (e) {
-    setTimeout(function () {
-      connectWebsocket();
-    }, 1000);
-  });
+  var reconnect = once(function() {
+    setTimeout(connectWebsocket, 1000)
+  })
+
+  test.on("error", reconnect);
+  test.on('close', reconnect);
 
   test.write(localStorage.getItem("user"));
 
