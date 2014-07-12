@@ -1,0 +1,21 @@
+{
+  "name": "democrazy-drone",
+  "dependencies": {
+    "ar-drone": "^0.3.2",
+    "end-of-stream": "^0.1.5",
+    "pumpify": "^1.0.0",
+    "send": "^0.6.0",
+    "serve": "^1.4.0",
+    "through-json": "^1.1.0",
+    "websocket-stream": "^0.5.1",
+    "ws": "^0.4.31"
+  },
+  "devDependencies": {
+    "browserify": "^4.2.0",
+    "watchify": "^0.10.2"
+  },
+  "scripts": {
+    "build": "browserify controller.js > static/bundle.js",
+	"watch": "watchify controller.js -o static/bundle.js"
+  }
+}
