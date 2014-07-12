@@ -19,6 +19,10 @@ var s = {
   "l": "land"
 }
 
+$(function () {
+  $("#nameField").val(localStorage.getItem("user"));3
+});
+
 setInterval(function () {
   if (stream) stream.write("ping");
 }, 1000);
@@ -53,8 +57,10 @@ function connectWebsocket () {
 
     var votes = "";
     $.each(data.votes, function(key, value) {
-      votes += "<div>"+key+": "+value+"</div>";
+      votes += "<div class=\"person clearfix\"><div class=\"left\">"+key+"</div><div class=\"right\">"+value+"</div></div>";
     });
+
+    $("#connected").html(Object.keys(data.votes).length);
 
     $("#votes").html(votes);
   });
