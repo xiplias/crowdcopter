@@ -1,33 +1,45 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="/basscss.css">
+  <link rel="stylesheet" type="text/css" href="/tempo.css">
   <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
-  <center>
+  <div class="col-center center">
     <div class="currentBox"><h1 id="current"></h1></div>
-    <div class="stateBox">
-      <button class="button" id="take-off">Take off</button>
-      <button class="button" id="land">Land</button>
-    </div>
-  </center>
-  <div class="controller">
-    <button class="button" id="forward">Forward</button>
-    <div>
-      <button class="button" id="left">Left</button>
-      <button class="button" id="right">Right</button>
-    </div>
-    <button class="button" id="back">Back</button>
   </div>
-  <div class="controller">
-    <button class="button" id="up">Up</button>
-    <div>
-      <button class="button" id="rotate-left">Rotate Left</button>
-      <button class="button" id="rotate-right">Rotate Right</button>
+  <div class="col col-3">
+    <div class="leftbar">
+      <label for="name">Name</label>
+      <input id="nameField" />
+
+      <div id="votes"></div>
     </div>
-    <button class="button" id="down">Down</button>
   </div>
-</div>
+  <div class="col col-8">
+    <div class="col-center center">
+      <div class="stateBox">
+        <button class="button" id="take-off">Take off</button>
+        <button class="button" id="land">Land</button>
+      </div>
+    </div>
+    <div class="center col col-6">
+      <button class="button" id="forward">Forward</button>
+      <div>
+        <button class="button" id="left">Left</button>
+        <button class="button" id="right">Right</button>
+      </div>
+      <button class="button" id="back">Back</button>
+    </div>
+    <div class="center col col-6">
+      <button class="button" id="up">Up</button>
+      <div>
+        <button class="button" id="rotate-left">Rotate Left</button>
+        <button class="button" id="rotate-right">Rotate Right</button>
+      </div>
+      <button class="button" id="down">Down</button>
+    </div>
+  </div>
 <script src="/keyboard.js"></script>
 <script src="/jquery.js"></script>
 <script src="/bundle.js"></script>
