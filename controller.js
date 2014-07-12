@@ -1,7 +1,6 @@
 var json = require('through-json')
 var pumpify = require('pumpify')
 var websocket = require('websocket-stream')
-var _ = require('lodash')
 
 connectWebsocket();
 
