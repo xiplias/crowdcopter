@@ -2,6 +2,8 @@ var json = require('through-json')
 var pumpify = require('pumpify')
 var websocket = require('websocket-stream')
 
+if (!localStorage.getItem("user")) localStorage.setItem("user", 'user-'+Math.random().toString(16).slice(2));
+
 connectWebsocket();
 
 var s = {
@@ -23,7 +25,6 @@ setInterval(function () {
 
 $.each(s, function(key, value) {
   KeyboardJS.on(key, function() {
-    console.log(key, value)
     stream.write(value);
     $("#"+value).addClass("highlight");
   }, function () {
@@ -36,15 +37,26 @@ $.each(s, function(key, value) {
   })
 });
 
-var username = 'user-'+Math.random().toString(16).slice(2)
+$("#nameField").blur(function () {
+  localStorage.setItem("user", $(this).val());
+  awebsocket.destroy();
+});
+
 
 function connectWebsocket () {
   var loc = window.location;
-  var test =  pumpify.obj(json.stringify(), websocket((loc.protocol === 'http:' ? 'ws://' : 'wss://') + loc.host), json.parse())
+  window.awebsocket = websocket((loc.protocol === 'http:' ? 'ws://' : 'wss://') + loc.host);
+  var test =  pumpify.obj(json.stringify(), awebsocket, json.parse());
 
   test.on('data', function (data) {
     $("#current").html(data);
-    console.log("data", data);
+
+    var votes = "";
+    $.each(data.votes, function(key, value) {
+      votes += "<div>"+key+": "+value+"</div>";
+    });
+
+    $("#votes").html(votes);
   });
 
   test.on("error", function (e) {
@@ -53,7 +65,7 @@ function connectWebsocket () {
     }, 1000);
   });
 
-  test.write(username)
+  test.write(localStorage.getItem("user"));
 
   window.stream = test;
 }
