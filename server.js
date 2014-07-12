@@ -45,7 +45,7 @@ var publish = function() {
 
   var factor = 1/connected.length
 
-  var status = connected.reduce(function(result, ws) {
+  var votes = connected.reduce(function(result, ws) {
     result[ws.username] = ws.vote || 'none'
     return result
   }, {})
@@ -87,7 +87,7 @@ var publish = function() {
       return data.height -= factor
     }
 
-    ws.write(status)
+    ws.write({votes:votes, data:data})
   })
 
   if (data.takeoff) client.takeoff()
