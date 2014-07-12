@@ -37,7 +37,8 @@ $.each(s, function(key, value) {
 });
 
 function connectWebsocket () {
-  var test =  pumpify.obj(json.stringify(), websocket('wss://drones2.localtunnel.me'), json.parse())
+  var loc = window.location;
+  var test =  pumpify.obj(json.stringify(), websocket((loc.protocol === 'http:' ? 'ws://' : 'wss://') + loc.host), json.parse())
 
   test.on('data', function (data) {
     $("#current").html(data);
