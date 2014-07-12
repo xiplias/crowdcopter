@@ -43,7 +43,12 @@ var publish = function() {
     land: 0
   }
 
-  var factor = 1/connected.length
+  var active = connected.reduce(function(result, ws) {
+    ws.active = ws.active || Date.now()
+    return result + (((Date.now() - ws.active) < 10000) ? 1 : 0)
+  }, 0)
+
+  var factor = 1/active
 
   var votes = connected.reduce(function(result, ws) {
     result[ws.username] = ws.vote || 'none'
@@ -57,36 +62,53 @@ var publish = function() {
 
     switch (vote) {
       case 'take-off':
-      return data.takeoff += factor
+      data.takeoff += factor
+      break
 
       case 'land':
-      return data.land += factor
+      data.land += factor
+      break
 
       case 'forward':
-      return data.speed += factor
+      data.speed += factor
+      break
 
       case 'back':
-      return data.speed -= factor
+      data.speed -= factor
+      break
 
       case 'left':
-      return data.strafe -= factor
+      data.strafe -= factor
+      break
 
       case 'right':
-      return data.strafe += factor
+      data.strafe += factor
+      break
 
       case 'rotate-right':
-      return data.rotate += factor
+      data.rotate += factor
+      break
 
       case 'rotate-left':
-      return data.rotate -= factor
+      data.rotate -= factor
+      break
 
       case 'up':
-      return data.height += factor
+      data.height += factor
+      break
 
       case 'down':
-      return data.height -= factor
+      data.height -= factor
+      break
+
+      default:
+      return
     }
 
+    ws.active = Date.now()
+  })
+
+  connected.forEach(function(ws) {
     ws.write({votes:votes, data:data})
   })
 
