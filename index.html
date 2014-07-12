@@ -1,0 +1,69 @@
+<html>
+<head>
+  <link  rel="stylesheet" type="text/css" href="/static/basscss.css">
+  <style text="text/css">
+    html, body {
+      padding: 0;
+      margin: 0;
+    }
+
+    .stateBox {
+      padding-top: 30px;
+    }
+
+    .currentBox {
+      background: #f1f1f1;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+
+    .controller {
+      width: 30%;
+      margin-left: 14%;
+      text-align: center;
+      float: left;
+      margin-top: 5%;
+
+    }
+
+    .button {
+      margin: 10px;
+      width: 150px;
+    }
+
+    .highlight {
+      background: #666;
+    }
+
+  </style>
+</head>
+<body>
+  <center>
+    <div class="currentBox"><h1 id="current"></h1></div>
+    <div class="stateBox">
+      <button class="button" id="take-off">Take off</button>
+      <button class="button" id="land">Land</button>
+    </div>
+  </center>
+  <div class="controller">
+    <button class="button" id="forward">Forward</button>
+    <div>
+      <button class="button" id="left">Left</button>
+      <button class="button" id="right">Right</button>
+    </div>
+    <button class="button" id="back">Back</button>
+  </div>
+  <div class="controller">
+    <button class="button" id="up">Up</button>
+    <div>
+      <button class="button" id="rotate-left">Rotate Left</button>
+      <button class="button" id="rotate-right">Rotate Right</button>
+    </div>
+    <button class="button" id="down">Down</button>
+  </div>
+</div>
+<script src="/static/keyboard.js"></script>
+<script src="/static/jquery.js"></script>
+<script src="/bundle.js"></script>
+</body>
+</html>
